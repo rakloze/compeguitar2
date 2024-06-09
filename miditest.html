@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MIDI Player</title>
+    <!-- Include the external MIDI.js script -->
+    <script type="text/javascript" src="https://kitchwww.github.io/midi/midi.js"></script>
+</head>
+<body>
+    <button id="playButton">Play A4.mid</button>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            var context;
+
+            function initializeAudioContext() {
+                if (!context) {
+                    context = new (window.AudioContext || window.webkitAudioContext)();
+                }
+                if (context.state === 'suspended') {
+                    context.resume();
+                }
+            }
+
+            document.getElementById("playButton").addEventListener("click", function() {
+                // Initialize AudioContext
+                initializeAudioContext();
+
+                // Ensure MIDI.js is loaded
+                if (typeof MIDIjs !== 'undefined') {
+                    MIDIjs.initAll();
+
+                    // Play the MIDI file
+                    MIDIjs.play('mid/A4.mid');
+                } else {
+                    console.error("MIDI.js is not loaded.");
+                }
+            });
+        });
+    </script>
+</body>
+</html>
